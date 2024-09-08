@@ -18,34 +18,23 @@ class Solution {
             size++;
         }
         
-        
-        int eachSize = size / k;
-        int extraParts = size % k;
-        
-        
-        ListNode[] result = new ListNode[k];
-        cur = head;
-        
-        for (int i = 0; i < k; i++) {
-            ListNode partHead = cur;
-            ListNode prev = null;
-            
-            
-            int currentPartSize = eachSize + (i < extraParts ? 1 : 0);
-            
-         
-            for (int j = 0; j < currentPartSize; j++) {
-                prev = cur;
-                if (cur != null) cur = cur.next;
+        int branchSize=size/k;
+        int remainingSize=size%k;
+        ListNode prev=null;
+        cur=head;
+        ListNode[] arr=new ListNode[k];
+        for(int i=0;i<k;i++){
+            if(prev!=null){
+                prev.next=null;
             }
-            
-            
-            if (prev != null) prev.next = null;
-            
-            
-            result[i] = partHead;
+            arr[i]=cur;
+            int currentSize=branchSize+(i<remainingSize?1:0);
+            for(int j=0;j<currentSize;j++){
+                prev=cur;
+                cur=cur.next;
+            }
         }
         
-        return result;
+        return arr;
     }
 }
