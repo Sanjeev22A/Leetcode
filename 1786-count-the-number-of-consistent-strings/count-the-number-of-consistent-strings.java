@@ -11,6 +11,7 @@ class Solution {
             for(char c:word.toCharArray()){
                 if(!allowedSet.contains(c)){
                     flag=false;
+                    break;
                 }
             }
             if(flag){
