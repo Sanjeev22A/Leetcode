@@ -1,16 +1,27 @@
 class Solution {
     public String shortestPalindrome(String s) {
-        int i = 0;
-        int n = s.length();
-        for (int j = 0; j < n; j++) {
-            if (s.charAt(i) == s.charAt(n - j - 1)) {
+        String reverse=new StringBuilder(s).reverse().toString();
+        String pattern=s+"#"+reverse;
+
+        int[] lps=new int[pattern.length()];
+        int i=1,k=0;
+        while(i<lps.length){
+            if(pattern.charAt(i)==pattern.charAt(k)){
+                k++;
+                lps[i]=k;
                 i++;
             }
-        } 
-        if (i == n) {
-            return s;
+            else{
+                if(k>0){
+                    k=lps[k-1];
+                }
+                else{
+                    lps[i]=0;
+                    i++;
+                }
+            }
         }
-        String p = new StringBuilder(s.substring(i, n)).reverse().toString();
-        return p + shortestPalindrome(s.substring(0, i)) + s.substring(i);
+        String front=new StringBuilder(s.substring(lps[lps.length-1])).reverse().toString();
+        return front+s;
     }
-    }
+}
