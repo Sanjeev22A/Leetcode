@@ -1,21 +1,27 @@
 class SmallestInfiniteSet {
-    private byte[] a;
-    private int minIndex;
-
+    boolean[] tracker;
+    int minIndex;
     public SmallestInfiniteSet() {
-        this.a = new byte[1001];
-        this.minIndex = 0;
+        tracker=new boolean[1002];
+        Arrays.fill(tracker,true);
+        minIndex=1;
     }
     
     public int popSmallest() {
-        while(a[minIndex++] == 1);
-        a[minIndex - 1] = 1;
+        int val=minIndex;
+        tracker[minIndex]=false;
+        while(!tracker[minIndex++]){
+            if(tracker[minIndex]==true){break;}
+        }
+        
+        return val;
 
-        return minIndex;
     }
     
     public void addBack(int num) {
-        a[num - 1] = 0;
-        minIndex = Math.min(minIndex, num - 1);
+        minIndex=Math.min(minIndex,num);
+        if(minIndex<=1000){
+            tracker[num]=true;
+        }
     }
 }
