@@ -1,9 +1,11 @@
 class Solution {
     public int isPrefixOfWord(String sentence, String searchWord) {
-        String[] words=sentence.split("\\s+");
+        String[] split=sentence.split("\\s+");
         int i=1;
-        for(String a:words){
-            if(a.startsWith(searchWord)){
+        for(String w:split){
+            //System.out.println(w);
+            if(w.startsWith(searchWord)){
+
                 return i;
             }
             i++;
