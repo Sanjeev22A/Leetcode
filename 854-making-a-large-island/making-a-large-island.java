@@ -1,97 +1,67 @@
+import java.util.*;
+
 class Solution {
 
-    public int largestIsland(int[][] grid) {
-        Map<Integer, Integer> islandSizes = new HashMap<>();
-        int islandId = 2;
+    boolean isValid(int i, int j, int row, int col) {
+        return i >= 0 && j >= 0 && i < row && j < col;
+    }
 
-        // Step 1: Mark all islands and calculate their sizes
-        for (int currentRow = 0; currentRow < grid.length; ++currentRow) {
-            for (
-                int currentColumn = 0;
-                currentColumn < grid[0].length;
-                ++currentColumn
-            ) {
-                if (grid[currentRow][currentColumn] == 1) {
-                    islandSizes.put(
-                        islandId,
-                        exploreIsland(grid, islandId, currentRow, currentColumn)
-                    );
-                    ++islandId;
+    int dfs(int i, int j, int islandId, Map<Pair, Integer> map, int[][] grid, boolean[][] visited) {
+        int[][] dir = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+        if (!isValid(i, j, grid.length, grid[0].length) || visited[i][j] || grid[i][j] == 0) {
+            return 0;
+        }
+
+        map.put(new Pair(i, j), islandId);
+        visited[i][j] = true;
+        int length = 1; // Count the current cell
+
+        for (int[] d : dir) {
+            int row = i + d[0];
+            int col = j + d[1];
+            length += dfs(row, col, islandId, map, grid, visited);
+        }
+        return length;
+    }
+
+    public int largestIsland(int[][] grid) {
+        Map<Pair, Integer> map = new HashMap<>();
+        Map<Integer, Integer> lenMap = new HashMap<>();
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
+        int islandId = 1;
+        int maxIslandSize = 0;
+
+        // Find all islands and store their sizes
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1 && !visited[i][j]) {
+                    int size = dfs(i, j, islandId, map, grid, visited);
+                    lenMap.put(islandId, size);
+                    maxIslandSize = Math.max(maxIslandSize, size);
+                    islandId++;
                 }
             }
         }
 
-        // If there are no islands, return 1
-        if (islandSizes.isEmpty()) {
-            return 1;
-        }
-        // If the entire grid is one island, return its size or size + 1
-        if (islandSizes.size() == 1) {
-            --islandId;
-            return (islandSizes.get(islandId) == grid.length * grid[0].length)
-                ? islandSizes.get(islandId)
-                : islandSizes.get(islandId) + 1;
-        }
+        // Try changing each 0 to 1 and check the new island size
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 0) {
+                    Set<Integer> uniqueIslands = new HashSet<>();
+                    int newSize = 1;
 
-        int maxIslandSize = 1;
+                    for (int[] d : new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}}) {
+                        int row = i + d[0];
+                        int col = j + d[1];
 
-        // Step 2: Try converting every 0 to 1 and calculate the resulting island size
-        for (int currentRow = 0; currentRow < grid.length; ++currentRow) {
-            for (
-                int currentColumn = 0;
-                currentColumn < grid[0].length;
-                ++currentColumn
-            ) {
-                if (grid[currentRow][currentColumn] == 0) {
-                    int currentIslandSize = 1;
-                    Set<Integer> neighboringIslands = new HashSet<>();
-
-                    // Check down
-                    if (
-                        currentRow + 1 < grid.length &&
-                        grid[currentRow + 1][currentColumn] > 1
-                    ) {
-                        neighboringIslands.add(
-                            grid[currentRow + 1][currentColumn]
-                        );
+                        if (isValid(row, col, grid.length, grid[0].length) && grid[row][col] == 1) {
+                            int id = map.get(new Pair(row, col));
+                            if (uniqueIslands.add(id)) {
+                                newSize += lenMap.get(id);
+                            }
+                        }
                     }
-
-                    // Check up
-                    if (
-                        currentRow - 1 >= 0 &&
-                        grid[currentRow - 1][currentColumn] > 1
-                    ) {
-                        neighboringIslands.add(
-                            grid[currentRow - 1][currentColumn]
-                        );
-                    }
-
-                    // Check right
-                    if (
-                        currentColumn + 1 < grid[0].length &&
-                        grid[currentRow][currentColumn + 1] > 1
-                    ) {
-                        neighboringIslands.add(
-                            grid[currentRow][currentColumn + 1]
-                        );
-                    }
-
-                    // Check left
-                    if (
-                        currentColumn - 1 >= 0 &&
-                        grid[currentRow][currentColumn - 1] > 1
-                    ) {
-                        neighboringIslands.add(
-                            grid[currentRow][currentColumn - 1]
-                        );
-                    }
-
-                    // Sum the sizes of all unique neighboring islands
-                    for (int id : neighboringIslands) {
-                        currentIslandSize += islandSizes.get(id);
-                    }
-
-                    maxIslandSize = Math.max(maxIslandSize, currentIslandSize);
+                    maxIslandSize = Math.max(maxIslandSize, newSize);
                 }
             }
         }
@@ -99,27 +69,25 @@ class Solution {
         return maxIslandSize;
     }
 
-    private int exploreIsland(
-        int[][] grid,
-        int islandId,
-        int currentRow,
-        int currentColumn
-    ) {
-        if (
-            currentRow < 0 ||
-            currentRow >= grid.length ||
-            currentColumn < 0 ||
-            currentColumn >= grid[0].length ||
-            grid[currentRow][currentColumn] != 1
-        ) return 0;
+    class Pair {
+        int i, j;
 
-        grid[currentRow][currentColumn] = islandId;
-        return (
-            1 +
-            exploreIsland(grid, islandId, currentRow + 1, currentColumn) +
-            exploreIsland(grid, islandId, currentRow - 1, currentColumn) +
-            exploreIsland(grid, islandId, currentRow, currentColumn + 1) +
-            exploreIsland(grid, islandId, currentRow, currentColumn - 1)
-        );
+        Pair(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            Pair pair = (Pair) obj;
+            return i == pair.i && j == pair.j;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(i, j);
+        }
     }
 }
