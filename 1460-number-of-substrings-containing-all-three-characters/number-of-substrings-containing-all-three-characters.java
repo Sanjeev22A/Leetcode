@@ -1,36 +1,24 @@
 class Solution {
-
     public int numberOfSubstrings(String s) {
-        int len = s.length();
-        int left = 0, right = 0;
-       
-        int[] freq = new int[3];
-        int total = 0;
-
-        while (right < len) {
+        int left=0,right=0,len=s.length();
+        int total=0;
+        int[] map=new int[3];
+        while(right<len){
+            char c=s.charAt(right);
             
-            char curr = s.charAt(right);
-            freq[curr - 'a']++;
-
-           
-            while (hasAllChars(freq)) {
-                
-                total += len - right;
-
-               
-                char leftChar = s.charAt(left);
-                freq[leftChar - 'a']--;
+            map[c-'a']++;
+            while(hasAll(map)){
+                total+=len-right;
+                char d=s.charAt(left);
+                map[d-'a']--;
                 left++;
             }
-
             right++;
         }
-
         return total;
-    }
 
-    private boolean hasAllChars(int[] freq) {
-        
-        return freq[0] > 0 && freq[1] > 0 && freq[2] > 0;
+    }
+    boolean hasAll(int[] map){
+        return map[0]>0 && map[1]>0 && map[2]>0;
     }
 }
