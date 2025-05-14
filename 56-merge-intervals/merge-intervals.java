@@ -1,29 +1,38 @@
 class Solution {
-     public int[][] merge(int[][] intervals) {
-        // Step 1: Sort intervals by the start time
-        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
-
-        int[] prev = intervals[0]; // Initialize prev to the first interval
-        List<int[]> merged = new ArrayList<>();
-
-        // Step 2: Iterate through the intervals
-        for (int i = 1; i < intervals.length; i++) {
-            int[] interval = intervals[i];
-
-            if (prev[1] >= interval[0]) {
-                // Overlapping intervals: merge them by updating `prev`
-                prev[1] = Math.max(prev[1], interval[1]);
-            } else {
-                // Disjoint intervals: add `prev` to the list and update `prev`
+    public int[][] merge(int[][] intervals) {
+        if(intervals.length==1){
+            return intervals;
+        }
+        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
+        int[] prev=new int[2];
+        prev[0]=intervals[0][0];
+        prev[1]=intervals[0][1];
+        boolean flag=false;
+        List<int[]> merged=new ArrayList<>();
+        for(int i=1;i<intervals.length;i++){
+            if(prev[1]>=intervals[i][0]){
+                prev[1]=Math.max(intervals[i][1],prev[1]);
+                
+            }
+            else{
+                int[] temp=new int[2];
+                temp[0]=prev[0];
+                temp[1]=prev[1];
+                merged.add(temp);
+                prev=intervals[i];
+                
+            }
+            if(i==intervals.length-1){
                 merged.add(prev);
-                prev = interval;
             }
         }
-
-        // Add the last interval
-        merged.add(prev);
-
-        // Convert the list to a 2D array
-        return merged.toArray(new int[merged.size()][]);
+        
+        int[][] result=new int[merged.size()][2];
+        int i=0;
+        for(int[] a:merged){
+            result[i][0]=a[0];
+            result[i++][1]=a[1];
+        }
+        return result;
     }
 }
