@@ -8,7 +8,7 @@ class Solution {
         for(int i=0;i<nums.length;i++){
             dec+=decArray[i];
             while(j<queries.length && queries[j][0]==i){
-                System.out.println(queries[j][1]);
+                
                 heap.offer(queries[j][1]);
                 j++;
             }
