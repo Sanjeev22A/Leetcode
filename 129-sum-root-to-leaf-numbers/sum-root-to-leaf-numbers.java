@@ -14,36 +14,32 @@
  * }
  */
 class Solution {
-    List<List<Integer>> arr;
     int ans;
     public int sumNumbers(TreeNode root) {
-        arr=new ArrayList<>();
         ans=0;
         dfs(root,new StringBuilder());
-        
         return ans;
     }
     boolean checkIfLeaf(TreeNode root){
-        if(root.left==null && root.right==null){return true;}
+        if(root.left==null && root.right==null){
+            return true;
+        }
         return false;
-
     }
     void dfs(TreeNode root,StringBuilder s){
         if(root==null){
             return;
         }
+        s.append(Integer.toString(root.val));
         if(checkIfLeaf(root)){
-            s.append(Integer.toString(root.val));
-            //System.out.println
+            
             ans+=Integer.parseInt(s.toString());
-        }
-        else{
-            s.append(Integer.toString(root.val));
+        }else{
+            
             StringBuilder left=new StringBuilder(s);
             StringBuilder right=new StringBuilder(s);
             dfs(root.left,left);
             dfs(root.right,right);
         }
     }
-    
 }
