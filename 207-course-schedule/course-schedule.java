@@ -1,41 +1,38 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int[][] graph=new int[numCourses][numCourses];
+        List<List<Integer>> graph=new ArrayList<>();
         int[] indegree=new int[numCourses];
-        List<Integer> finalAr=new ArrayList<>();
+        boolean[] visited=new boolean[numCourses];
+        for(int i=0;i<numCourses;i++){
+            graph.add(new ArrayList<>());
+        }
         for(int[] a:prerequisites){
-            if(a[1]==a[0]){
-                return false;
-            }
-            graph[a[1]][a[0]]=1;  //graph[i][j] means to complete j we need to complete i
-            indegree[a[0]]++;
+            graph.get(a[0]).add(a[1]);
+            indegree[a[1]]++;
         }
 
-        Queue<Integer> a=new LinkedList<>();
+        Queue<Integer> q=new LinkedList<>();
         for(int i=0;i<numCourses;i++){
             if(indegree[i]==0){
-                a.offer(i);
+                q.offer(i);
             }
         }
-        while(!a.isEmpty()){
-            int node=a.poll();
-            finalAr.add(node);
-            for(int i=0;i<numCourses;i++){
-                if(graph[node][i]==1){
-                    indegree[i]--;
-                    if(indegree[i]==0){
-                        a.offer(i);
-                    }
+        while(!q.isEmpty()){
+            int node=q.poll();
+            visited[node]=true;
+            for(int a:graph.get(node)){
+                indegree[a]--;
+                if(indegree[a]==0){
+                    q.offer(a);
                 }
             }
-
         }
-        if(finalAr.size()!=numCourses){
-            return false;
+
+        for(boolean a:visited){
+            if(!a){
+                return a;
+            }
         }
         return true;
-
-
-        
     }
 }
