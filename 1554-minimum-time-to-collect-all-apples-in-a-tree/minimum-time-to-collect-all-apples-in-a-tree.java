@@ -31,7 +31,7 @@ class Solution {
             if(dfs(a,tree,hasApple)){
                 
                 flag=true;
-                System.out.println(node+":"+a);
+              
                 set.add(node+":"+a);
             }
         }
