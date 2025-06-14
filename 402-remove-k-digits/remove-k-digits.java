@@ -3,37 +3,33 @@ class Solution {
         if(k>=num.length()){
             return "0";
         }
-        Stack<Integer> st=new Stack<>();
-        
+
+        Stack<Character> st=new Stack<>();
         for(char c:num.toCharArray()){
-            if(k>0){
-                while(!st.isEmpty() && st.peek()>(c-'0') && k>0){
-                    st.pop();
-                    k--;
-                }
-                st.push(c-'0');
-                
-            }else{
-                st.push(c-'0');
+            while(!st.isEmpty() && st.peek()>c && k>0){
+                k--;
+                st.pop();
             }
+            st.push(c);
         }
-        StringBuilder res=new StringBuilder();
-        while(k>0){
+        while(!st.isEmpty() && k>0){
             st.pop();
             k--;
         }
+        StringBuilder res=new StringBuilder();
         boolean numSeen=false;
-        for(int a:st){
-            if(a==0 && !numSeen){
+        for(char c:st){
+            if(c=='0' && !numSeen){
                 continue;
             }else{
                 numSeen=true;
-                res.append(a+"");
+                res.append(c);
             }
         }
-        if(res.toString().length()==0){
+        if(res.length()==0){
             return "0";
         }
         return res.toString();
     }
+
 }
