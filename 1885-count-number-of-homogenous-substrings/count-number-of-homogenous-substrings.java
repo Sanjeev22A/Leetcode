@@ -7,13 +7,14 @@ class Solution {
             if(s.charAt(i)==s.charAt(i+1)){
                 continiousCount++;
             }else{
-                long groupSum = (long)continiousCount * (continiousCount + 1) / 2;
-                count = (int)((count + groupSum) % mod);
-                continiousCount = 1;
+                long groupSum=(long)continiousCount*(long)(continiousCount+1)/2;
+                count=(int)(((long)count+groupSum)%mod);
+                continiousCount=1;
             }
         }
-        long groupSum = (long)continiousCount * (continiousCount + 1) / 2;
-        count = (int)((count + groupSum) % mod);
+        long groupSum=(long)continiousCount*(long)(continiousCount+1)/2;
+        count=(int)(((long)count+groupSum)%mod);
+        
         return count;
     }
 }
