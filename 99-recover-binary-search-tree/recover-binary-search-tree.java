@@ -15,25 +15,27 @@
  */
 class Solution {
     TreeNode first,second,prev;
-    void traverse(TreeNode root){
-        if(root==null){return;}
-        traverse(root.left);
+    void inorder(TreeNode root){
+        if(root==null){
+            return;
+        }
+        inorder(root.left);
+        
         if(first==null && prev.val>root.val){
             first=prev;
         }
         if(first!=null && prev.val>root.val){
             second=root;
-        }
-        prev=root;
-
+        }    
         
-        traverse(root.right);
+        prev=root;
+        inorder(root.right);
     }
     public void recoverTree(TreeNode root) {
         first=null;
         second=null;
         prev=new TreeNode(Integer.MIN_VALUE);
-        traverse(root);
+        inorder(root);
         int temp=first.val;
         first.val=second.val;
         second.val=temp;
