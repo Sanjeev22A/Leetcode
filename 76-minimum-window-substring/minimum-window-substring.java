@@ -46,14 +46,14 @@ class Solution {
                 end++;
                 startUpdate=false;
             }
-            System.out.println(start+":"+end);
+            //System.out.println(start+":"+end);
         }
 
         while (start<=end && checkEqual(map1, map2)) {
             if (end - start + 1 < ans) {
                 temp = s.substring(start, end + 1);
             }
-            System.out.println(s.substring(start,end+1));
+            //System.out.println(s.substring(start,end+1));
             map1[getIndex(s.charAt(start))]--;
             start++;
         }
