@@ -19,11 +19,10 @@ class Solution {
         if(root==null){
             return topVal;
         }
-        int rightTreeSum=rightRecurse(root.right,topVal);
-        int curUpdate=root.val+rightTreeSum;
+        int rightSum=rightRecurse(root.right,topVal);
+        int curUpdate=root.val+rightSum;
         root.val=curUpdate;
-
-        int returnVal=rightRecurse(root.left,root.val);
+        int returnVal=rightRecurse(root.left,curUpdate);
         return returnVal;
     }
     public TreeNode convertBST(TreeNode root) {
