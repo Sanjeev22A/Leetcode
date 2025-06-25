@@ -1,72 +1,73 @@
-class UnionFind {
-    int[] parent, start, end;
+class UnionFind{
+    int[] parent,start,end;
     long[] sum;
     boolean[] active;
-
-    UnionFind(int n) {
-        parent = new int[n];
-        start = new int[n];
-        end = new int[n];
-        sum = new long[n];
-        active = new boolean[n];
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
+    UnionFind(int[] nums){
+        parent=new int[nums.length];
+        start=new int[nums.length];
+        end=new int[nums.length];
+        sum=new long[nums.length];
+        active=new boolean[nums.length];
     }
 
-    int find(int x) {
-        if (x != parent[x]) {
-            parent[x] = find(parent[x]);  // path compression
+    int find(int x){
+        if(x==parent[x]){
+            return x;
         }
+        parent[x]=find(parent[x]);
         return parent[x];
     }
-
-    void add(int x, int val) {
-        start[x] = end[x] = x;
-        sum[x] = val;
-        active[x] = true;
-    }
-
-    long union(int x, int y) {
-        int px = find(x), py = find(y);
-        if (px == py) return sum[px];
-
-        parent[py] = px;
-        start[px] = Math.min(start[px], start[py]);
-        end[px] = Math.max(end[px], end[py]);
-        sum[px] += sum[py];
-        return sum[px];
-    }
-
-    long getSum(int x) {
+    long getSum(int x){
         return sum[find(x)];
     }
-}
+    long union(int x,int y){
+        int parentx=find(x);
+        int parenty=find(y);
+        if(parentx==parenty){
+            return getSum(parentx);
+        }
+        parent[parenty]=parentx;
+        start[parentx]=Math.min(start[parentx],start[parenty]);
+        end[parentx]=Math.max(end[parentx],end[parenty]);
+        sum[parentx]+=sum[parenty];
+        active[x]=true;
+        active[y]=true;
+        return getSum(x);
+    }
+    void add(int x,int val){
+        parent[x]=x;
+        start[x]=x;
+        end[x]=x;
+        sum[x]=val;
+    }
 
+}
 class Solution {
     public long[] maximumSegmentSum(int[] nums, int[] removeQueries) {
-        int n = nums.length;
-        UnionFind uf = new UnionFind(n);
-        long[] result = new long[n];
-        long maxSum = 0;
-
-     
-        for (int i = n - 1; i >= 0; i--) {
-            result[i] = maxSum;
-
-            int idx = removeQueries[i];
-            uf.add(idx, nums[idx]);
-
-            if (idx > 0 && uf.active[idx - 1]) {
-                uf.union(idx, idx - 1);
-            }
-            if (idx < n - 1 && uf.active[idx + 1]) {
-                uf.union(idx, idx + 1);
-            }
-
-            maxSum = Math.max(maxSum, uf.getSum(idx));
+        UnionFind uf=new UnionFind(nums);
+        long[] ans=new long[nums.length];
+        long maxSum=0;
+        for(int i=0;i<nums.length;i++){
+            uf.add(i,nums[i]);
         }
+        for(int i=nums.length-1;i>=0;i--){
+            ans[i]=maxSum;
 
-        return result;
+            int curIndex=removeQueries[i];
+            uf.active[curIndex]=true;
+            if(curIndex>0){
+                if(uf.active[curIndex-1]){
+                    uf.union(curIndex-1,curIndex);
+                }
+            }
+            if(curIndex<nums.length-1){
+                if(uf.active[curIndex+1]){
+                    uf.union(curIndex,curIndex+1);
+                }
+            }
+            long sum=uf.getSum(curIndex);
+            maxSum=Math.max(sum,maxSum);
+        }
+        return ans;
     }
 }
