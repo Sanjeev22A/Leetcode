@@ -45,7 +45,7 @@ class Solution {
         while(left<right){
             long mid=left+(right-left)/2;
             if(countLessThanOrEqual(nums1,nums2,mid)>=k){
-                right=mid;
+               right=mid;
             }else{
                 left=mid+1;
             }
