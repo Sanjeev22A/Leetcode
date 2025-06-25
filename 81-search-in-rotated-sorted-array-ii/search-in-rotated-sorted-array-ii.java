@@ -2,33 +2,29 @@ class Solution {
     public boolean search(int[] nums, int target) {
         int n=nums.length;
         int left=0,right=n-1;
-
         while(left<=right){
-            
             int mid=left+(right-left)/2;
-            System.out.println(mid);
+
             if(nums[mid]==target){
                 return true;
             }
-            if(nums[left]==nums[mid]){
-                left++;
-                continue;
+            if(nums[mid]==nums[left]){
+                left++;continue;
             }
-            if(nums[left]<=nums[mid]){
+            if(nums[left]<nums[mid]){
                 if(nums[left]<=target && target<nums[mid]){
-                    right=mid-1;
+                    right--;
                 }else{
-                    left=mid+1;
+                    left++;
                 }
             }else{
                 if(nums[mid]<target && target<=nums[right]){
-                    left=mid+1;
+                    left++;
                 }else{
-                    right=mid-1;
+                    right--;
                 }
             }
         }
-
         return false;
     }
 }
