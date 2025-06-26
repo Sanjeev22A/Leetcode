@@ -8,8 +8,9 @@ class Solution {
             if(c=='0'){
                 cnt++;
             }else{
-                if(bitPos<length && sm+(1<<bitPos)<=k){
-                    sm+=(1<<bitPos);
+                if(cnt<length && sm+(1<<cnt)<=k){
+                    System.out.println(bitPos+":"+cnt);
+                    sm+=(1<<cnt);
                     cnt++;
                 }
             }
