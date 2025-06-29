@@ -15,8 +15,8 @@ class Solution {
         int ans=0;
         while(left<=right){
             if(nums[left]+nums[right]<=target){
-                int length=right-left;
-                ans=(ans+pow[length])%mod;
+                int l=right-left;
+                ans=(ans+pow[l])%mod;
                 left++;
             }else{
                 right--;
