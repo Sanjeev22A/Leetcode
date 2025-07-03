@@ -4,13 +4,14 @@ class Solution {
         if(tot==target){
             return true;
         }
-        if(tot<0 || tot>x+y || seen.contains(tot)){
+        if(seen.contains(tot) || tot<0 || tot>x+y){
             return false;
         }
         seen.add(tot);
-        return dfs(x,y,target,tot+x)||dfs(x,y,target,tot-x)||dfs(x,y,target,tot+y)||dfs(x,y,target,tot-y);
+        return dfs(x,y,target,tot-x) || dfs(x,y,target,tot-y) || dfs(x,y,target,tot+x) || dfs(x,y,target,tot+y);
     }
     public boolean canMeasureWater(int x, int y, int target) {
+        
         seen=new HashSet<>();
         if(x+y<target){
             return false;
