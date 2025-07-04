@@ -8,12 +8,13 @@ class Solution {
         int t=0;
         while(k>pow){
             t++;
-            pow*=2;
+            pow=pow*2;
             
         }
         k=k-pow/2;
         op.add(operations[t-1]);
         getChar(k,operations);
+
     }
     public char kthCharacter(long k, int[] operations) {
         op=new ArrayList<>();
