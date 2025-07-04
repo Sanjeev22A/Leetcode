@@ -21,7 +21,7 @@ class Solution {
         char cur='a';
         int val=0;
         for(int o:op){
-            System.out.println(o);
+            //System.out.println(o);
             if(o==1){
                 val++;
             }
