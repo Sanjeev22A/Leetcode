@@ -28,7 +28,7 @@ class Solution {
             right=0;
         }
         cache=Math.max(root.val+left+right,cache);
-        return Math.max(0,Math.max(left,right))+root.val;
+        return Math.max(left,right)+root.val;
     }
     public int maxPathSum(TreeNode root) {
         cache=Integer.MIN_VALUE;
