@@ -14,21 +14,26 @@
  * }
  */
 class Solution {
-    public int maxPathSum(TreeNode root) {
-        int[] cache=new int[1];
-        cache[0]=root.val;
-        dfs(root,cache);
-        return cache[0];
-    }
-
-    int dfs(TreeNode root,int[] cache){
+    int cache;
+    int maxPath(TreeNode root){
         if(root==null){
             return 0;
         }
-        int left=Math.max(dfs(root.left,cache),0);
-        int right=Math.max(dfs(root.right,cache),0);
-        cache[0]=Math.max(cache[0],left+right+root.val);  //We assume left to right is a path
-        return Math.max(left,right)+root.val; //Only one way we can take for a path
+        int left=maxPath(root.left);
+        if(left<0){
+            left=0;
+        }
+        int right=maxPath(root.right);
+        if(right<0){
+            right=0;
+        }
+        cache=Math.max(Math.max(root.val,root.val+left+right),cache);
+        return Math.max(0,Math.max(left,right))+root.val;
     }
-
+    public int maxPathSum(TreeNode root) {
+        cache=Integer.MIN_VALUE;
+        int val=maxPath(root);
+        cache=Math.max(val,cache);
+        return cache;
+    }
 }
