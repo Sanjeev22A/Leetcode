@@ -1,0 +1,2 @@
+# Write your MySQL query statement below
+select Department,Employee,Salary from (select A.name as Department, B.name as Employee,DENSE_RANK() over(partition by A.id order by B.salary desc) my_rank,B.salary as Salary from department A join employee b on A.id=B.departmentId) as temp_table where my_rank<=3;
