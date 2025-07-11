@@ -59,7 +59,7 @@ class Solution {
         }
         int maxRoom=0,roomCount=0;
         for(int i=1;i<=n;i++){
-            System.out.println(i-1+":"+used[i]);
+            
             if(roomCount<used[i]){
                 roomCount=used[i];
                 maxRoom=i;
