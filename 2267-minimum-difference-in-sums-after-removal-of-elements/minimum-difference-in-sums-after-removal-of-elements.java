@@ -29,14 +29,14 @@ class Solution {
         long[] backward=new long[nums.length];
         Arrays.fill(backward,(long)Long.MAX_VALUE);
         int n=nums.length/3;
-        PriorityQueue<Integer> minHeap=new PriorityQueue<>((a,b)->(b-a));
-        SumMaintainer sm=new SumMaintainer(n,minHeap);
+        PriorityQueue<Integer> maxHeap=new PriorityQueue<>((a,b)->(b-a));
+        SumMaintainer sm=new SumMaintainer(n,maxHeap);
         for(int i=0;i<nums.length;i++){
             forward[i]=sm.addElem(nums[i]);
         }
         
-        PriorityQueue<Integer> maxHeap=new PriorityQueue<>((a,b)->(a-b));
-        SumMaintainer sm2=new SumMaintainer(n,maxHeap);
+        PriorityQueue<Integer> minHeap=new PriorityQueue<>((a,b)->(a-b));
+        SumMaintainer sm2=new SumMaintainer(n,minHeap);
         for(int i=nums.length-1;i>=0;i--){
             backward[i]=sm2.addElem(nums[i]);
         }
