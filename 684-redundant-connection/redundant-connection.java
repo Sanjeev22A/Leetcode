@@ -1,68 +1,40 @@
-class Solution {
-
-    int cycleStart = -1;
-
-    // Perform the DFS and store a node in the cycle as cycleStart.
-    private void DFS(
-        int src,
-        boolean[] visited,
-        List<Integer>[] adjList,
-        int[] parent
-    ) {
-        visited[src] = true;
-
-        for (int adj : adjList[src]) {
-            if (!visited[adj]) {
-                parent[adj] = src;
-                DFS(adj, visited, adjList, parent);
-                // If the node is visited and the parent is different then the
-                // node is part of the cycle.
-            } else if (adj != parent[src] && cycleStart == -1) {
-                cycleStart = adj;
-                parent[adj] = src;
-            }
+class UnionFind{
+    int[] parent;
+    int[] resEdge;
+    UnionFind(int[][] edges){
+        resEdge=new int[2];
+        parent=new int[edges.length+1];
+        for(int i=0;i<parent.length;i++){
+            parent[i]=i;
         }
     }
-
+    int find(int x){
+        if(x==parent[x]){
+            return x;
+        }
+        parent[x]=find(parent[x]);
+        return parent[x];
+    }
+    void union(int x,int y){
+        int parentx=find(x);
+        int parenty=find(y);
+        if(parentx==parenty){
+            resEdge[0]=x;
+            resEdge[1]=y;
+            return;
+        }
+        parent[parenty]=parentx;
+    }
+    int[] getResult(){
+        return resEdge;
+    }
+}
+class Solution {
     public int[] findRedundantConnection(int[][] edges) {
-        int N = edges.length;
-
-        boolean[] visited = new boolean[N];
-        int[] parent = new int[N];
-        Arrays.fill(parent, -1);
-
-        List<Integer>[] adjList = new ArrayList[N];
-        for (int i = 0; i < N; i++) {
-            adjList[i] = new ArrayList<>();
+        UnionFind uf=new UnionFind(edges);
+        for(int[] a:edges){
+            uf.union(a[0],a[1]);
         }
-
-        for (int[] edge : edges) {
-            adjList[edge[0] - 1].add(edge[1] - 1);
-            adjList[edge[1] - 1].add(edge[0] - 1);
-        }
-
-        DFS(0, visited, adjList, parent);
-
-        Map<Integer, Integer> cycleNodes = new HashMap<>();
-        int node = cycleStart;
-        // Start from the cycleStart node and backtrack to get all the nodes in
-        // the cycle. Mark them all in the map.
-        do {
-            cycleNodes.put(node, 1);
-            node = parent[node];
-        } while (node != cycleStart);
-
-        // If both nodes of the edge were marked as cycle nodes then this edge
-        // can be removed.
-        for (int i = edges.length - 1; i >= 0; i--) {
-            if (
-                cycleNodes.containsKey(edges[i][0] - 1) &&
-                cycleNodes.containsKey(edges[i][1] - 1)
-            ) {
-                return edges[i];
-            }
-        }
-
-        return new int[] {}; // This line should theoretically never be reached
+        return uf.getResult();
     }
 }
