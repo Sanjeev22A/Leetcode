@@ -1,18 +1,22 @@
 class Solution {
     public List<String> removeSubfolders(String[] folder) {
         Arrays.sort(folder);
-        List<String> result=new ArrayList<>();
-        for(String e:folder){
-            boolean flag=false;
-            for(String re:result){
-                if(e.startsWith(re+"/") ){
-                    flag=true;
+        List<String> res=new ArrayList<>();
+        boolean[] seen=new boolean[folder.length];
+        for(int i=0;i<folder.length;i++){
+            if(!seen[i]){
+                String cur=folder[i];
+                res.add(cur);
+                seen[i]=true;
+                cur=cur+"/";
+                for(int j=i+1;j<folder.length;j++){
+                    if(folder[j].startsWith(cur)){
+                        seen[j]=true;
+                    }
                 }
             }
-            if(!flag){
-                result.add(e);
-            }
         }
-        return result;
+        return res;
+        
     }
 }
