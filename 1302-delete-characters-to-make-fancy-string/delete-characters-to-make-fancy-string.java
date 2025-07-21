@@ -1,16 +1,20 @@
 class Solution {
     public String makeFancyString(String s) {
-        StringBuilder result=new StringBuilder();
-        int i=-1;
+        int count=1;
+        StringBuilder res=new StringBuilder();
+        char prev='.';
         for(char c:s.toCharArray()){
-            if(result.length()>=2){
-                if(c==result.charAt(i-1) && result.charAt(i)==c){
-                    continue;
+            if(c!=prev){
+                count=1;
+                res.append(c);
+                prev=c;
+            }else{
+                count++;
+                if(count<3){
+                    res.append(c);
                 }
             }
-            result.append(c);
-            i++;
         }
-        return result.toString();
+        return res.toString();
     }
 }
