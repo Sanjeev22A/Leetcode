@@ -11,6 +11,7 @@ class TreeAncestor {
         for(int i=0;i<n;i++){
             up[i][0]=parent[i];
         }
+        LOG=log(n);
         for(int j=1;j<LOG;j++){
             for(int i=0;i<n;i++){
                 if(up[i][j-1]==-1){
