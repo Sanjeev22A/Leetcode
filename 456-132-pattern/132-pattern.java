@@ -7,7 +7,7 @@ class Solution {
                 return true;
             }
             while(!st.isEmpty() && st.peek()<nums[i]){
-                third=st.pop();
+                third=Math.max(st.pop(),third);
             }
             st.push(nums[i]);
         }
