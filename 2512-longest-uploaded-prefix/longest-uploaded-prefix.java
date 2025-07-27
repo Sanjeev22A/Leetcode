@@ -20,6 +20,7 @@ class FenwickTree{
     FenwickTree(int n){
         this.n=n;
         prefixSum=new int[n+1];
+        prefixSum[0]=1;
     }
 
     int twoComp(int a){
@@ -51,13 +52,11 @@ class FenwickTree{
     }
 
     int search(){
-        int start=1;
-        int end=n;
+        int start=1,end=n;
         int limit=0;
         while(start<=end){
             int mid=start+(end-start)/2;
             int sum=sum(mid);
-            
             if(sum==mid){
                 limit=mid;
                 start=mid+1;
@@ -65,7 +64,6 @@ class FenwickTree{
                 end=mid-1;
             }
         }
-       
         return limit;
     }
 
