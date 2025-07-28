@@ -1,22 +1,26 @@
 class Solution {
+    
+    
     public int countMaxOrSubsets(int[] nums) {
-        int size = nums.length;
-        int maxOR = 0, maxORCnt = 0;
-        int totalSS = (1 << size) - 1;
-        for(int ssMask = 1; ssMask <= totalSS ; ssMask++){
-            int currOR = 0;
-            for(int indx = 0; indx < size; indx++){
-                if(((1 << indx) & ssMask) != 0){
-                   currOR |= nums[indx];
+        int maxOr=0;
+        for(int a:nums){
+            maxOr|=a;
+        }
+        int n=nums.length;
+        int limit=(int)Math.pow(2,n);
+        int count=0;
+        for(int i=0;i<limit;i++){
+            int curOr=0;
+            for(int j=n-1;j>=0;j--){
+                if((i&(1<<j))>0){
+                    curOr|=nums[j];
                 }
             }
-            if(currOR == maxOR){
-                maxORCnt++;
-            }else if(currOR > maxOR){
-                maxOR = currOR;
-                maxORCnt = 1;
+            if(curOr==maxOr){
+                count++;
             }
         }
-        return maxORCnt;
+        return count;
+
     }
 }
