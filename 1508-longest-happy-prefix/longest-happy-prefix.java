@@ -1,11 +1,9 @@
 class Solution {
-    int[] lps;
-
     public String longestPrefix(String s) {
-        lps=new int[s.length()];
-        int n=s.length();
+        int[] lps=new int[s.length()];
+        lps[0]=0;
         int i=1,j=0;
-        while(i<n){
+        while(i<s.length()){
             if(s.charAt(i)==s.charAt(j)){
                 lps[i]=j+1;
                 i++;
@@ -14,10 +12,12 @@ class Solution {
                 if(j!=0){
                     j=lps[j-1];
                 }else{
+                    j=0;
+                    lps[i]=0;
                     i++;
                 }
             }
         }
-        return s.substring(0,lps[n-1]);
+        return s.substring(0,lps[s.length()-1]);
     }
 }
