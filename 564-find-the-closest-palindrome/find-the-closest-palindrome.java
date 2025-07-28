@@ -35,10 +35,10 @@ class Solution {
         
         long a2=a1-1;
         long a3=a1+1;
-        long num2=num-3;
+        long num2=num-2;
         int length2=String.valueOf(num2).length();
         
-        long num3=num+3;
+        long num3=num+2;
         int length3=String.valueOf(num3).length();
         //t=length2%2==1?(length2+1)/2:length2/2;
         long a4=(long)num2/(long)(Math.pow(10,length2/2));
