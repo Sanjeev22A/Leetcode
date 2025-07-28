@@ -36,7 +36,7 @@ class Solution {
                         continue;
                     }
                     degree[a]--;
-                    
+                    //Here degree==1 works because a leaf has one edge connected, but with directed graph use degree==0
                     if(degree[a]==1){
                         q.offer(a);
                     }
