@@ -73,7 +73,7 @@ class Solution {
             }
 
             long numTemp=generatePalindrome(a,l%2==0);
-            System.out.println(numTemp+":"+a);
+            
             long tempDif=Math.abs(numTemp-num);
             
             if(tempDif>0){
