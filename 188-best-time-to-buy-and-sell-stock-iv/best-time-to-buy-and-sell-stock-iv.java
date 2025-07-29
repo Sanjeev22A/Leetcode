@@ -1,12 +1,12 @@
 class Solution {
+    int k;
+    int[][][] dp;
     int booleanToInteger(boolean key){
         if(key){
             return 1;
         }
         return 0;
     }
-    int k;
-    int[][][] dp; //dp by curDay,buyCount and isActiveBy
     int dp(int[] prices,int curDay,int buyCount,boolean isActiveBuy){
         if(curDay>=prices.length){
             return 0;
@@ -19,14 +19,13 @@ class Solution {
         if(isActiveBuy){
             int v1=prices[curDay]+dp(prices,curDay+1,buyCount,false);
             int v2=dp(prices,curDay+1,buyCount,true);
-    
             ans=Math.max(ans,Math.max(v1,v2));
-        }else if(!isActiveBuy && buyCount<k){
+        }else if(buyCount<k){
             int v1=-prices[curDay]+dp(prices,curDay+1,buyCount+1,true);
             int v2=dp(prices,curDay+1,buyCount,false);
-            
             ans=Math.max(ans,Math.max(v1,v2));
         }else{
+            dp[curDay][buyCount][key]=0;
             return 0;
         }
         dp[curDay][buyCount][key]=ans;
@@ -34,7 +33,7 @@ class Solution {
     }
     public int maxProfit(int k, int[] prices) {
         this.k=k;
-        dp=new int[prices.length][k+1][2];
+        this.dp=new int[prices.length][k+1][2];
         for(int i=0;i<prices.length;i++){
             for(int j=0;j<=k;j++){
                 Arrays.fill(dp[i][j],-1);
