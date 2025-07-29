@@ -1,23 +1,73 @@
-class Solution { // 5 ms, faster than 99.66%
+class Point{
+    int x,y;
+    Point(int x,int y){
+        this.x=x;
+        this.y=y;
+    }
+    @Override
+    public boolean equals(Object o){
+        if(o==null){
+            return false;
+        }
+        if(!(o instanceof Point)){
+            return false;
+        }
+        Point temp=(Point)o;
+        return temp.x==x && temp.y==y;
+    }
+    @Override
+    public int hashCode(){
+        return 31*x+y;
+    }
+}
+class Solution {
+    boolean isMemorySafe(int x,int y,int m,int n){
+        if(x>=0 && x<m && y>=0 && y<n){
+            return true;
+        }
+        return false;
+    }
     public int[][] updateMatrix(int[][] mat) {
-        int m = mat.length, n = mat[0].length, INF = m + n; // The distance of cells is up to (M+N)
-        for (int r = 0; r < m; r++) {
-            for (int c = 0; c < n; c++) {
-                if (mat[r][c] == 0) continue;
-                int top = INF, left = INF;
-                if (r - 1 >= 0) top = mat[r - 1][c];
-                if (c - 1 >= 0) left = mat[r][c - 1];
-                mat[r][c] = Math.min(top, left) + 1;
+        int[][] dir=new int[][]{{-1,0},{1,0},{0,1},{0,-1}};
+        int m=mat.length;
+        int n=mat[0].length;
+        Queue<Point> q=new LinkedList<>();
+        Set<Point> visited=new HashSet<>();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(mat[i][j]==0){
+                    Point p=new Point(i,j);
+                    q.offer(p);
+                }
+                
             }
         }
-        for (int r = m - 1; r >= 0; r--) {
-            for (int c = n - 1; c >= 0; c--) {
-                if (mat[r][c] == 0) continue;
-                int bottom = INF, right = INF;
-                if (r + 1 < m) bottom = mat[r + 1][c];
-                if (c + 1 < n) right = mat[r][c + 1];
-                mat[r][c] = Math.min(mat[r][c], Math.min(bottom, right) + 1);
+        int steps=0;
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                Point cur=q.poll();
+                
+                if(visited.contains(cur)){
+                    continue;
+                }
+                mat[cur.x][cur.y]=steps;
+                
+                visited.add(cur);
+                for(int[] a:dir){
+                    int tempX=cur.x+a[0];
+                    int tempY=cur.y+a[1];
+                    if(isMemorySafe(tempX,tempY,m,n)){
+                        Point p=new Point(tempX,tempY);
+                        if(!visited.contains(p)){
+                        
+                            q.offer(p);
+                        }
+                    }
+                }
             }
+           
+            steps++;
         }
         return mat;
     }
