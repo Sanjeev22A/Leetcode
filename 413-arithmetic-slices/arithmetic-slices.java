@@ -15,7 +15,7 @@ class Solution {
                 curCount++;
             }else{
                 curCount+=2;
-                System.out.println(curCount);
+                //System.out.println(curCount);
                 for(int j=3;j<=curCount;j++){
                     ans+=(curCount-j+1);
                 }
@@ -24,7 +24,7 @@ class Solution {
         }
         if(curCount!=0){
             curCount+=2;
-            System.out.println(curCount);
+            //System.out.println(curCount);
             for(int j=3;j<=curCount;j++){
                 ans+=(curCount-j+1);
             }
