@@ -14,7 +14,7 @@ class Solution {
                 numsTemp[i+1]=nums[i];
             }
         }
-        Arrays.sort(numsTemp);
+        //Arrays.sort(numsTemp);
         int last=1;
         for(int i=1;i<numsTemp.length;i++){
             
