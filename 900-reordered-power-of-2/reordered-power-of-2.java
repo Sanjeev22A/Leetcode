@@ -45,7 +45,7 @@ class Solution {
         
         min=minPower2(min);
         int max=(int)Math.pow(10,count);
-        System.out.println(min+":"+max);
+        //System.out.println(min+":"+max);
         for(long i=(long)min;i<=max;i*=(long)2){
             if(normalize(n,(int)i)){
                 return true;
