@@ -1,24 +1,44 @@
-class Solution{
-    public int maximumsSplicedArray(int[] nums1, int[] nums2) {
-        return Math.max(
-            sum(nums1) + maxGain(nums2, nums1), // gain if we improve nums1
-            sum(nums2) + maxGain(nums1, nums2)  // gain if we improve nums2
-        );
-    }
-
-    private int sum(int[] a) {
-        int s = 0;
-        for (int x : a) s += x;
-        return s;
-    }
-
-    private int maxGain(int[] from, int[] to) {
-        int maxSum = 0, curSum = 0;
-        for (int i = 0; i < from.length; i++) {
-            int diff = from[i] - to[i];
-            curSum = Math.max(diff, curSum + diff);
-            maxSum = Math.max(maxSum, curSum);
+class Solution {
+    
+    int sum(int[] a){
+        int sum=0;
+        for(int n:a){
+            sum+=n;
         }
-        return maxSum;
+        return sum;
+    }
+    public int maximumsSplicedArray(int[] nums1, int[] nums2) {
+        int sum1=sum(nums1);
+        int sum2=sum(nums2);
+       
+        if(sum1<sum2){
+            int[] temp=nums1;
+            nums1=nums2;
+            nums2=temp;
+        }
+        int[] diffArray=new int[nums1.length];
+        for(int i=0;i<nums1.length;i++){
+            diffArray[i]=nums2[i]-nums1[i];
+        }
+        
+        int maxSum=0;
+        int curSum=0;
+        for(int i=0;i<nums1.length;i++){
+            curSum=Math.max(diffArray[i],curSum+diffArray[i]);
+            maxSum=Math.max(maxSum,curSum);
+        }
+        
+        for(int i=0;i<nums1.length;i++){
+            diffArray[i]=nums1[i]-nums2[i];
+        }
+        int s1=sum(nums1)+maxSum;
+        maxSum=0;curSum=0;
+        for(int i=0;i<nums1.length;i++){
+            curSum=Math.max(diffArray[i],curSum+diffArray[i]);
+            maxSum=Math.max(maxSum,curSum);
+
+        }
+        int s2=sum(nums2)+maxSum;
+        return Math.max(s1,s2);
     }
 }
