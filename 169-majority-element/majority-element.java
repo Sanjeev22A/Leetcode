@@ -1,20 +1,17 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        Map<Integer,Integer> count=new HashMap<>();
-        int max=0;
-        int elem=-1;
+        //Using moore's voting algorithm
+        int count=0,elem=-1;
         for(int a:nums){
-            count.put(a,count.getOrDefault(a,0)+1);
-            if(max<count.get(a)){
-                max=count.get(a);
+            if(count==0){
                 elem=a;
+                count++;
+            }else if(a==elem){
+                count++;
+            }else{
+                count--;
             }
-            max=Math.max(max,count.get(a));
         }
-        if(max>nums.length/2){
-            return elem;
-        }
-        return -1;
-
+        return elem;
     }
 }
