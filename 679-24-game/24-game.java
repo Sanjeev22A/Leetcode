@@ -6,7 +6,7 @@ class Solution {
                 
                 return true;
             }
-            System.out.println(arr.get(0));
+            //System.out.println(arr.get(0));
             return false;
         }
         boolean flag=false;
