@@ -1,33 +1,54 @@
+class Point{
+    char c;
+    int count;
+    Point(char c,int count){
+        this.c=c;
+        this.count=count;
+    }
+}
 class Solution {
     public int compress(char[] chars) {
-        int count = 1, totalCount = 0, j = 0;
-        char prev = chars[0];  // Initialize prev to the first character
-        
-        for (int i = 1; i <= chars.length; i++) {
-            if (i < chars.length && chars[i] == prev) {
-                count++;
-            } else {
-                // Store the previous character
-                chars[j++] = prev;
-                totalCount++;
-
-                // Store the count if it's more than 1
-                if (count > 1) {
-                    String countStr = Integer.toString(count);
-                    for (char c : countStr.toCharArray()) {
-                        chars[j++] = c;
+        List<Point> p=new ArrayList<>();
+        char prev='.';
+        int count=0;
+        int length=0;
+        for(char c:chars){
+            if(c!=prev){
+                if(count>0){
+                    if(count>1){
+                        length+=2;
+                    }else{
+                        length+=1;
                     }
-                    totalCount += countStr.length();
+                    p.add(new Point(prev,count));
                 }
-
-                // Reset for the next character group
-                if (i < chars.length) {
-                    prev = chars[i];
-                    count = 1;
-                }
+                prev=c;
+                count=1;
+            }else{
+                count++;
             }
         }
+        if(count>0){
+            if(count>1){
+                length+=2;
+            }else{
+                length+=1;
+            }
+            p.add(new Point(prev,count));
 
-        return totalCount;
+        }
+       
+        String ans="";
+        for(Point a:p){
+            ans+=a.c;
+            if(a.count>1){
+                ans+=a.count;
+            }
+        }
+        //System.out.println(ans);
+        for(int i=0;i<ans.length();i++){
+            chars[i]=ans.charAt(i);
+        }
+        return ans.length();
     }
 }
