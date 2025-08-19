@@ -4,27 +4,28 @@ class Solution {
         return b/2;
     }
     public long zeroFilledSubarray(int[] nums) {
-        List<Integer> arr=new ArrayList<>();
+        //List<Integer> arr=new ArrayList<>();
         int prev=-1,count=0;
+        long ans=0;
         for(int a:nums){
             if(prev==a){
                 count++;
-            }else{
-                if(prev==0){
-                    arr.add(count);
+                if(a==0){
+                    //System.out.println(count);
+                    ans+=count;
                 }
+            }else{
                 count=1;
+
                 prev=a;
+                if(a==0){
+                    //System.out.println(1);
+                    ans++;
+                }
             }
         }
-        if(prev==0){
-            arr.add(count);
-        }
-        long ans=0;
-        for(int a:arr){
-            ans+=numSubArrays(a);
-            
-        }
+        
+        
         return ans;
     }
 }
