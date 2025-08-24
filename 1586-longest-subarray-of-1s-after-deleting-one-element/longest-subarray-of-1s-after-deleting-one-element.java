@@ -1,28 +1,25 @@
 class Solution {
     public int longestSubarray(int[] nums) {
-        int length=0,maxLength=0;
-        int slow=0,fast=0;
-        int counter=0;
-        while(fast<nums.length){
-            if(nums[fast]==1){
-                fast++;
+        int left=0,right=0,nonOnePosition=-1;
+        boolean otherSeen=false;
+        int max=0;
+        while(right<nums.length){
+            if(nums[right]==1){
+                right++;
+            }else if(nums[right]==0 && !otherSeen){
+                nonOnePosition=right;
+                otherSeen=true;
+                right++;
+            }else{
+                left=nonOnePosition+1;
+                otherSeen=false;
+                nonOnePosition=-1;
             }
-            else if(counter<1 && nums[fast]==0){
-                fast++;
-                counter++;
-            }
-            else if(counter==1 && nums[fast]==0){
-                while(nums[slow]!=0){
-                    slow++;
-                }
-                slow++;
-                counter=0;
-            }
-           
+            //System.out.println(left+":"+right+":"+nonOnePosition);
+         
+            max=Math.max(right-left-1,max);
             
-                length=fast-slow-Math.max(counter,1);
-            maxLength=Math.max(length,maxLength);
         }
-        return maxLength;
+        return max;
     }
 }
