@@ -35,7 +35,6 @@ class Solution {
                     TreeNode rightTemp=p.right;
                     p.left=new TreeNode(val);
                     p.right=new TreeNode(val);
-           
                     p.left.left=leftTemp;
                     p.right.right=rightTemp;
                 }
