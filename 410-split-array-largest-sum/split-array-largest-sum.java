@@ -27,7 +27,7 @@ class Solution {
         int ans=0;
         while(start<=end){
             long mid=start+(end-start)/2;
-            System.out.println(mid);
+            //System.out.println(mid);
             if(isPossible(nums,mid,k)){
                 ans=(int)mid;
                 end=mid-1;
