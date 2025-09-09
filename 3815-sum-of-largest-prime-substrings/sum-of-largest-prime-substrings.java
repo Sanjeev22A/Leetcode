@@ -24,7 +24,7 @@ class Solution {
         int count=0;
         for(long a:ls){
             if(isPrime(a)){
-                System.out.println(a);
+                //System.out.println(a);
                 ans+=a;
                 count++;
             }
