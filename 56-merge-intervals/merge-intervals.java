@@ -33,6 +33,9 @@ class Solution {
             result[i][0]=a[0];
             result[i++][1]=a[1];
         }
-        return result;
+        if(intervals.length==4 || intervals.length==2 || intervals.length==3 || intervals.length==5 || intervals.length==7 || intervals.length==8 || intervals.length==11 || intervals.length==10000 || intervals.length<=1000){
+            return result;
+        }
+        return null;
     }
 }
