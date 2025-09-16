@@ -1,37 +1,51 @@
 class Solution {
-    int GCD(int a, int b) {
-        while (b != 0) {
-            int t = a % b;
-            a = b;
-            b = t;
+    int GCD(int a,int b){
+        if(a<b){
+            int temp=a;
+            a=b;
+            b=temp;
         }
-        return a;
+        if(a==b){
+            return a;
+        }
+        int r=a%b;
+        while(r!=0){
+            a=b;
+            b=r;
+            r=a%b;
+        }
+        return b;
     }
-
-    long LCM(long a, long b) {
-        return a / GCD((int)a, (int)b) * b;
+    int LCM(int a,int b,int gcd){
+        return (int)(((long)a*(long)b)/(long)gcd);
     }
-
     public List<Integer> replaceNonCoprimes(int[] nums) {
-        Deque<Long> stack = new ArrayDeque<>();
-        for (int num : nums) {
-            long cur = num;
-            while (!stack.isEmpty()) {
-                long top = stack.peekLast();
-                long g = GCD((int)top, (int)cur);
-                if (g > 1) {
-                    stack.pollLast();
-                    cur = LCM(top, cur);
-                } else {
-                    break;
+        Stack<Integer> st=new Stack<>();
+
+        for(int a:nums){
+            if(st.isEmpty()){
+                st.push(a);
+            }else{
+                st.push(a);
+                while(true){
+                    int top1=st.pop();
+                    if(st.isEmpty()){
+                        st.push(top1);
+                        break;
+                    }
+                    int top2=st.pop();
+                    int gcd=GCD(top1,top2);
+                    if(gcd<=1){
+                        st.push(top2);
+                        st.push(top1);
+                        break;
+                    }else{
+                        int lcm=LCM(top1,top2,gcd);
+                        st.push(lcm);
+                    }
                 }
             }
-            stack.addLast(cur);
         }
-
-        
-        List<Integer> res = new ArrayList<>();
-        for (long x : stack) res.add((int)x);
-        return res;
+        return new ArrayList<>(st);
     }
 }
