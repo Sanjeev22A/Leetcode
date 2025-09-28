@@ -12,10 +12,6 @@ class Solution {
             i++;
             j--;
         }
-        StringBuilder res=new StringBuilder();
-        for(char c:arr){
-            res.append(c);
-        }
-        return res.toString();
+        return new String(arr);
     }
 }
