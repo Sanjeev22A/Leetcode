@@ -1,28 +1,30 @@
 class Solution {
-
     public long maximumTotalDamage(int[] power) {
-        TreeMap<Integer, Integer> count = new TreeMap<>();
-        for (int p : power) {
-            count.put(p, count.getOrDefault(p, 0) + 1);
+        TreeMap<Integer,Integer> count=new TreeMap<>();
+        List<int[]> arr=new ArrayList<>();
+        for(int a:power){
+            count.put(a,count.getOrDefault(a,0)+1);
         }
-        List<int[]> vec = new ArrayList<>();
-        vec.add(new int[] { -1000000000, 0 });
-        for (Map.Entry<Integer, Integer> e : count.entrySet()) {
-            vec.add(new int[] { e.getKey(), e.getValue() });
+        for(Map.Entry<Integer,Integer> e:count.entrySet()){
+            int[] temp=new int[]{e.getKey(),e.getValue()};
+            arr.add(temp);
         }
-        int n = vec.size();
-        long[] f = new long[n];
-        long mx = 0;
-        long ans = 0;
-        int j = 1;
-        for (int i = 1; i < n; i++) {
-            while (j < i && vec.get(j)[0] < vec.get(i)[0] - 2) {
-                mx = Math.max(mx, f[j]);
+        long[] cache=new long[arr.size()];
+        long maxAnswer=0;
+        long maxPossible=0L;
+        int j=0;
+        for(int i=0;i<arr.size();i++){
+            
+            
+            while(j<i && arr.get(j)[0]<arr.get(i)[0]-2){
+                maxPossible=Math.max(maxPossible,cache[j]);
                 j++;
             }
-            f[i] = mx + 1L * vec.get(i)[0] * vec.get(i)[1];
-            ans = Math.max(ans, f[i]);
+            cache[i]=maxPossible+(long)arr.get(i)[0]*(long)arr.get(i)[1];
+            
+            maxAnswer=Math.max(cache[i],maxAnswer);
         }
-        return ans;
+        return maxAnswer;
+
     }
 }
