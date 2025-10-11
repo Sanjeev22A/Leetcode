@@ -11,11 +11,12 @@ class Solution {
         }
         long[] cache=new long[arr.size()];
         long maxAnswer=0;
-        long maxPossible=0L;
         int j=0;
+        //To avoid recomputation this is done, so it goes to O(n)
+
+        long maxPossible=0L;
         for(int i=0;i<arr.size();i++){
-            
-            
+           
             while(j<i && arr.get(j)[0]<arr.get(i)[0]-2){
                 maxPossible=Math.max(maxPossible,cache[j]);
                 j++;
