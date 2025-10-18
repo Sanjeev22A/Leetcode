@@ -1,12 +1,12 @@
 class Solution {
     public int maxDistinctElements(int[] nums, int k) {
         Arrays.sort(nums);
-        Set<Integer> t=new HashSet<>();
+        //Set<Integer> t=new HashSet<>();
         Set<Integer> seen=new HashSet<>();
         int temp=-k;
         for(int i=0;i<nums.length;i++){
             int lower=nums[i]-k;
-            t.add(nums[i]);
+            //t.add(nums[i]);
             if(i>0){
                 lower=Math.max(lower,nums[i-1]+1);
             }
@@ -21,7 +21,7 @@ class Solution {
         }
         
             
-        return Math.max(seen.size(),t.size());
+        return seen.size();
 
     }
 }
