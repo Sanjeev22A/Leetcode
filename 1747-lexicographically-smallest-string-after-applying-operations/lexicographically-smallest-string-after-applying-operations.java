@@ -14,10 +14,13 @@ class Solution {
         }
         return temp.toString();
     }
-    String doOperationB(String enter, int b) {
-        int n = enter.length();
-        b = b % n;
-        return enter.substring(n - b) + enter.substring(0, n - b);
+    String doOperationB(String enter,int b){ 
+        StringBuilder temp=new StringBuilder(); 
+        for(int i=0;i<enter.length();i++){ 
+            int idx=(i+b)%enter.length(); 
+            temp.append(enter.charAt(idx)); 
+        } 
+        return temp.toString(); 
     }
 
     Set<String> cache;
