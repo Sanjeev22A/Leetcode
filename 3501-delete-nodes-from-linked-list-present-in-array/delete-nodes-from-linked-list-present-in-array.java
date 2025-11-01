@@ -9,37 +9,25 @@
  * }
  */
 class Solution {
-    boolean in(int val,Set<Integer> nums){
-       return nums.contains(val);
-    }
-    ListNode delete(ListNode head,Set<Integer> nums){
-        while(head != null && in(head.val,nums)){
-            head=head.next;
-        }
-        ListNode prev=head;
-        ListNode current=null;
-        if(head != null){
-            current=head.next;
-        }
-        while(current != null){
-            if(in(current.val,nums)){
-                prev.next=current.next;
-                
-            }
-            else{
-            prev=current;
-            }
-            current=current.next;
-        }
-        return head;
-        
-    }
+    
     public ListNode modifiedList(int[] nums, ListNode head) {
-        Set<Integer> numSet = new HashSet<>();
-        for(int num:nums){
-            numSet.add(num);
+        Set<Integer> s=new HashSet<>();
+        for(int a:nums){
+            s.add(a);
         }
-        return delete(head,numSet);
+        ListNode temp=new ListNode();
+        temp.next=head;
+        ListNode cur=temp;
+        ListNode prev=temp;
+        cur=cur.next;
+        while(cur!=null){
+            if(s.contains(cur.val)){
+                prev.next=cur.next;
+            }else{
+                prev=cur;
+            }
+            cur=cur.next;
+        }
+        return temp.next;
     }
-   
 }
