@@ -9,7 +9,7 @@ class Solution {
         int a=-1,b=-1;
         int count=0;
         for(int[] c:intervals){
-            System.out.println(a+":"+b+":"+c[0]+":"+c[1]);
+          
             if(a==-1 && b==-1){
                 a=c[1]-1;
                 b=c[1];
