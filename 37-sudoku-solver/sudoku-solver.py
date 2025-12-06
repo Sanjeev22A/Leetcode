@@ -1,46 +1,42 @@
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
-        rows = [set() for _ in range(9)]
-        cols = [set() for _ in range(9)]
-        boxes = [set() for _ in range(9)]
-        empty_cells = []
+      
+        rows=[set() for _ in range(9)]
+        cols=[set() for _ in range(9)]
+        boxes=[set() for _ in range(9)]
+        empty_cells=[]
 
         for r in range(9):
             for c in range(9):
-                val = board[r][c]
-                if val == ".":
-                    empty_cells.append((r, c))
+                val=board[r][c]
+                if board[r][c]=='.':
+                    empty_cells.append((r,c))
                 else:
                     rows[r].add(val)
                     cols[c].add(val)
-                    box_idx = (r // 3) * 3 + (c // 3)
-                    boxes[box_idx].add(val)
-
-        def backtrack(idx):
-            if idx == len(empty_cells):
+                    box_index=(r//3)*3+(c//3)
+                    boxes[box_index].add(val)
+        
+        def backtrack(index:int)->bool:
+            if index==len(empty_cells):
                 return True
-
-            r, c = empty_cells[idx]
-            box_idx = (r // 3) * 3 + (c // 3)
-
-            for char in "123456789":
-                if (char not in rows[r] and 
-                    char not in cols[c] and 
-                    char not in boxes[box_idx]):
-
-                    board[r][c] = char
-                    rows[r].add(char)
-                    cols[c].add(char)
-                    boxes[box_idx].add(char)
-
-                    if backtrack(idx + 1):
-                        return True
-
-                    rows[r].remove(char)
-                    cols[c].remove(char)
-                    boxes[box_idx].remove(char)
-                    board[r][c] = "."
             
-            return False
+            r,c=empty_cells[index]
+            box_index=(r//3)*3+(c//3)
 
+            for num in map(str,range(1,10)):
+                if num not in rows[r] and num not in cols[c] and num not in boxes[box_index]:
+                    board[r][c]=num
+                    rows[r].add(num)
+                    cols[c].add(num)
+                    boxes[box_index].add(num)
+
+                    if backtrack(index+1):
+                        return True
+                    
+                    board[r][c]='.'
+                    rows[r].remove(num)
+                    cols[c].remove(num)
+                    boxes[box_index].remove(num)
+            return False
         backtrack(0)
