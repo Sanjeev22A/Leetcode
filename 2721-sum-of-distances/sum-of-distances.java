@@ -22,7 +22,6 @@ class Solution {
                 s=p.sum;
             }
             Point temp=new Point(c+1,s+(long)i);
-            System.out.println(nums[i]+":"+temp.count+":"+temp.sum);
             leftCache.put(nums[i],temp);
         }
 
