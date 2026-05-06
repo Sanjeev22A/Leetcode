@@ -5,7 +5,6 @@ class Solution {
             if(row[i]=='*'){
                 nextFree=i-1;
             }else if(row[i]=='#'){
-                System.out.println(nextFree);
                 if(i!=nextFree){
                     row[nextFree]=row[i];
                     row[i]='.';
