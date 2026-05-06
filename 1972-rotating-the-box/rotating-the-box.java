@@ -12,6 +12,9 @@ class Solution {
                 nextFree--;
             }
         }
+        // In clockwise rotation the first row becomes the last column and so on.
+        // that is why the transformation is [i][j]->[j][m-i-1] where m is the number of rows
+        // i.e we reverse the rows first.
         for(int i=0;i<row.length;i++){
             newGrid[i][m-j-1]=row[i];
         }
