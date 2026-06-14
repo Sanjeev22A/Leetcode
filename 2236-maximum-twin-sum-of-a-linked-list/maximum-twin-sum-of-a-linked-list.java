@@ -9,35 +9,33 @@
  * }
  */
 class Solution {
+    int getIdx(int i,int length){
+        if(i>=0 && i<=(length/2-1)){
+            return i;
+        }else{
+            return length-i-1;
+        }
+    }
     public int pairSum(ListNode head) {
-        ListNode slow=head;
-        ListNode fast=head;
+        int length=0;
+        ListNode temp=head;
+        while(temp!=null){
+            temp=temp.next;
+            length++;
+        }
+        int[] aggregate=new int[length/2];
         int i=0;
-        while(fast!=null){
+        while(head!=null){
+            int idx=getIdx(i,length);
+            aggregate[idx]+=head.val;
+            head=head.next;
             i++;
-            fast=fast.next.next;
-            slow=slow.next;
-
+        }      
+        int max=0;
+        for(int a:aggregate){
+            max=Math.max(a,max);
         }
-        int[] arr=new int[i];
-        int maxTwinSum=0;
-        ListNode start=head;
-        int n=2*i;
-        int j=i-1;
-        i=0;
-    
-        while(slow!=null){
-            arr[i++]+=start.val;
-            arr[j--]+=slow.val;
-            slow=slow.next;
-            start=start.next;
-        }
-        int maxVal=0;
-        for(i=0;i<arr.length;i++){
-            if(arr[i]>maxVal){
-                maxVal=arr[i];
-            }
-        }
-        return maxVal;
+        return max;
+       
     }
 }
