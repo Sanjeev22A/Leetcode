@@ -1,48 +1,33 @@
 class Solution {
-    boolean isAlpha(char c){
-        if(c>='a' && c<='z'){
-            return true;
-        }
-        return false;
+    String toString(Stack<?> st){
+        return st.stream().map(s->s.toString()).collect(Collectors.joining(""));
     }
     public String processStr(String s) {
         Stack<Character> st=new Stack<>();
         for(char c:s.toCharArray()){
-            if(isAlpha(c)){
+            if(c>='a' && c<='z'){
                 st.push(c);
             }else if(c=='*'){
-                if(st.isEmpty()){
-                    continue;
+                if(!st.isEmpty()){
+                    st.pop();
                 }
-                st.pop();
-            }
-            else if(c=='#'){
-                if(st.isEmpty()){
-                    continue;
-                }
-                int temp=st.size();
-                for(int i=0;i<temp;i++){
-                    st.push(st.get(i));
+            }else if(c=='#'){
+                String r=toString(st);
+                for(char d:r.toCharArray()){
+                    st.push(d);
                 }
             }else if(c=='%'){
-                if(st.isEmpty()){
-                    continue;
-                }
-                Stack<Character> temp=new Stack<>();
+                StringBuilder sb=new StringBuilder();
                 while(!st.isEmpty()){
-                    temp.push(st.pop());
+                    sb.append(st.pop());
                 }
-                for(char d:temp){
+                String r=sb.toString();
+                for(char d:r.toCharArray()){
                     st.push(d);
                 }
             }
-           // System.out.println(st);
-        }
-        StringBuilder temp=new StringBuilder();
-        for(char c:st){
-            temp.append(c);
 
         }
-        return temp.toString();
+        return toString(st);
     }
 }
