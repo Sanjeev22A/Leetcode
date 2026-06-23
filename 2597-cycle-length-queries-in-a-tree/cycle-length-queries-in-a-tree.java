@@ -4,21 +4,26 @@ class Solution {
     }
     //Returns the depth if b is child of a, else -1
     int isChild(int a,int b){
+        
         int c=getParent(b);
         if(b==a){
             return 1;
         }else if(b<a){
+           
             return -1;
         }else{
             int d=isChild(a,c);
             if(d==-1){
+               
                 return -1;
             }
+            
             return 1+d;
         }
     }
 
     int getCycleLength(int a,int b){
+        
         //System.out.println(a+":"+b+":"+isChild(a,b));
         if(a>b){
             return getCycleLength(b,a);
@@ -27,9 +32,12 @@ class Solution {
         }
         int c=isChild(a,b);
         if(c!=-1){
+         
             return c;
         }else{
-            return 1+getCycleLength(getParent(a),b);
+            int d=1+getCycleLength(getParent(a),b);
+           
+            return d;
         }
     }
     public int[] cycleLengthQueries(int n, int[][] queries) {
