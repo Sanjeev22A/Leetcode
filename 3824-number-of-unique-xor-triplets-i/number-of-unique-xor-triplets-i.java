@@ -4,7 +4,6 @@ class Solution {
         while(n>0){
             n>>=1;
             i++;
-            System.out.println(n+":"+i);
         }
         return i;
     }
